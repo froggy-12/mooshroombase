@@ -2,16 +2,14 @@ package types
 
 import (
 	"time"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type PongResponse struct {
-	Message string `json:"message"`
-}
 
 type ErrorResponse struct {
 	Error string `json:"error"`
+}
+
+type HttpSuccessResponse struct {
+	Message string `json:"message"`
 }
 
 type SingleFileUploadedSuccessResponse struct {
@@ -30,18 +28,29 @@ type DeleteSuccessResponse struct {
 }
 
 type User struct {
+	ID        string `json:"id"`
+	UserName  string `json:"username" validate:"required"`
 	FirstName string `json:"firstName" validate:"required"`
 	LastName  string `json:"lastName" validate:"required"`
 	Email     string `json:"email" validate:"required,email"`
 	Password  string `json:"password" validate:"required,min=8"`
+	Verified  bool   `json:"verified"`
 }
 
 type User_Mongo struct {
-	ID        primitive.ObjectID `bson:"_id"`
-	FirstName string             `bson:"firstName"`
-	LastName  string             `bson:"lastName"`
-	Email     string             `bson:"email"`
-	Password  string             `bson:"password"`
-	CreatedAt time.Time          `bson:"createdAt"`
-	UpdatedAt time.Time          `bson:"updatedAt"`
+	ID                string    `bson:"id"`
+	UserName          string    `bson:"username, unique"`
+	FirstName         string    `bson:"firstName"`
+	LastName          string    `bson:"lastName"`
+	Email             string    `bson:"email, unique"`
+	Password          string    `bson:"password"`
+	Verified          bool      `bson:"verified"`
+	CreatedAt         time.Time `bson:"createdAt"`
+	UpdatedAt         time.Time `bson:"updatedAt"`
+	VerificationToken int       `bson:"verificationToken"`
+}
+
+type LogInDetails struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8"`
 }

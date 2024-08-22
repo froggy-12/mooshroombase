@@ -1,10 +1,26 @@
 package config
 
+import "time"
+
 type Config struct {
+	AppUrl                    string
+	EmailVerificationRoute    string
 	PrimaryDB                 string
+	JWTSecret                 string
+	ClientAPICredintials      map[string]string
+	JWTCookieAge              int
+	AllowedCorsOrigin         []string
+	CorsHeadersMaxAge         int
+	EmailVerificationAllowed  bool
+	JWTTokenExpiration        time.Time
 	RunningDatabaseContainers []string
 	MongoDBUsername           string
 	MongoDBPassword           string
+	VerifyEmailRouteClient    string
+	SMTPServerAdress          string
+	SMTPServerPort            string
+	SMTPEmailFrom             string
+	SMTPPassword              string
 	MariaDBRootPassword       string
 	Authentication            bool
 	ChatFunctions             bool

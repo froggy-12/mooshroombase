@@ -147,11 +147,11 @@ func Init() {
 	go func() {
 		start := time.Now()
 		for range ticker.C {
-			timeLeft := int(60 - time.Since(start).Seconds())
+			timeLeft := int(40 - time.Since(start).Seconds())
 			if timeLeft <= 0 {
 				break
 			}
-			utils.DebugLogger("docker", fmt.Sprintf("Waiting for containers to configure... %d seconds left", timeLeft))
+			utils.DebugLogger("docker", fmt.Sprintf("Waiting for containers to be cold... %d seconds left", timeLeft))
 		}
 		done <- true
 	}()
@@ -253,6 +253,20 @@ func createAndStartMariaDBContainer(cli *client.Client, name string, port string
 		return err
 	}
 	err = cli.ContainerStart(context.Background(), cont.ID, container.StartOptions{})
-	time.Sleep(20 * time.Second)
+	ticker := time.NewTicker(time.Second)
+	done := make(chan bool)
+	go func() {
+		start := time.Now()
+		for range ticker.C {
+			timeLeft := int(50 - time.Since(start).Seconds())
+			if timeLeft <= 0 {
+				break
+			}
+			utils.DebugLogger("docker", fmt.Sprintf("Waiting till mariadb container configured... %d seconds left", timeLeft))
+		}
+		done <- true
+	}()
+	<-done
+	ticker.Stop()
 	return err
 }

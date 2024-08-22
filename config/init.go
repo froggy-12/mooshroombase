@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/froggy-12/mooshroombase/utils"
 )
@@ -33,9 +34,23 @@ func CreateDefaultConfig(configs *Config) {
 		MongoDBUsername:           "root",
 		MongoDBPassword:           "password",
 		MariaDBRootPassword:       "password",
+		JWTSecret:                 "SuchASuperSecretMooshroom",
+		JWTTokenExpiration:        time.Now().Add(time.Hour * 24 * 7),
 		ChatFunctions:             true,
 		Authentication:            true,
 		BodySizeLimit:             100 * 1024 * 1024,
+		SMTPServerAdress:          "smtp.gmail.com",
+		SMTPServerPort:            "587",
+		SMTPEmailFrom:             "mohi6644123@gmail.com",
+		SMTPPassword:              "aahzizpbpbgiwtju",
+		AppUrl:                    "http://localhost:6644",
+		VerifyEmailRouteClient:    "/verify",
+		EmailVerificationRoute:    "/verify-email",
+		ClientAPICredintials:      map[string]string{},
+		AllowedCorsOrigin:         []string{"*"},
+		CorsHeadersMaxAge:         int(time.Hour * 24 * 7),
+		JWTCookieAge:              int(time.Hour * 24 * 7),
+		EmailVerificationAllowed:  false,
 		GithubKey:                 "",
 		GithubSecret:              "",
 		DiscordKey:                "",

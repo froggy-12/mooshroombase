@@ -10,5 +10,5 @@ func FeaturedRoutes(router fiber.Router) {
 }
 
 func pong(c *fiber.Ctx) error {
-	return c.JSON(types.PongResponse{Message: "pong"})
+	return c.JSON(types.HttpSuccessResponse{Message: "pong"})
 }

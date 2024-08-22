@@ -2,10 +2,12 @@ package api
 
 import (
 	"database/sql"
+	"strings"
 
 	"github.com/froggy-12/mooshroombase/config"
 	"github.com/froggy-12/mooshroombase/routes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -31,13 +33,26 @@ func (s *Server) Start() error {
 		BodyLimit: config.Configs.BodySizeLimit,
 	})
 
+	corsMiddleWare := cors.New(cors.Config{
+		AllowOrigins: strings.Join(config.Configs.AllowedCorsOrigin, ", "),
+		AllowMethods: strings.Join([]string{"GET", "POST", "PUT", "DELETE", "PATCH"}, ", "),
+		AllowHeaders: "*",
+		MaxAge:       config.Configs.CorsHeadersMaxAge,
+	})
+
 	// subrouter groups
 	featuredRouter := app.Group("/api/v1")
-	fileUpload := app.Group("/api/file-upload/v1")
+	fileUpload := app.Group("/api/file-upload/v1", corsMiddleWare)
 
 	// Featured Routes
 	routes.FeaturedRoutes(featuredRouter)
 	routes.FileStorageRoutes(fileUpload)
+
+	// mongo auth routes
+	if config.Configs.PrimaryDB == "mongodb" {
+		mongoAuthRouter := app.Group("/api/mongo/auth/v1", corsMiddleWare)
+		routes.MongoAuthRoutes(mongoAuthRouter, s.mongoClient)
+	}
 
 	return app.Listen(s.addr)
 }

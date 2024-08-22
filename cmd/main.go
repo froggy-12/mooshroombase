@@ -12,6 +12,7 @@ import (
 	"github.com/froggy-12/mooshroombase/utils"
 	"github.com/go-sql-driver/mysql"
 	"github.com/redis/go-redis/v9"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -75,6 +76,31 @@ func main() {
 			}
 			utils.DebugLogger("main", "MariaDB 🐬 Connection Successful 👍")
 			mariaDBClient = db
+		}
+	}
+
+	if config.Configs.Authentication {
+		if config.Configs.PrimaryDB == "mongodb" {
+			utils.DebugLogger("main", "detected mongodb as primary db indexing some models")
+			database := mongoClient.Database("mooshroombase")
+			usersCollection := database.Collection("users")
+			_, err := usersCollection.Indexes().CreateOne(context.Background(), mongo.IndexModel{
+				Keys:    bson.M{"email": 1},
+				Options: options.Index().SetUnique(true),
+			})
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			_, err = usersCollection.Indexes().CreateOne(context.Background(), mongo.IndexModel{
+				Keys:    bson.M{"username": 1},
+				Options: options.Index().SetUnique(true),
+			})
+			if err != nil {
+				log.Fatal(err)
+			}
+
 		}
 	}
 
