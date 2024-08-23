@@ -30,3 +30,5 @@ Unfortunately, I've had to discontinue this project due to a lack of resources. 
 
 **Notice**
 The Code might look that simple but I tried to make it simple not use golang's style I tried using statefull way feel free to check it out.
+
+# It Would be completely Open Source with open documentations 
