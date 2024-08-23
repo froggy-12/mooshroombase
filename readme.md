@@ -3,13 +3,12 @@
 **Features:**
 
 - MongoDB and MariaDB databases with full access
-- Real-time subscriptions
 - Authentication
 - Storage
 - Media server
 - Instant full control API instead of SDKs
 - Dashboard
-- Real-time database connection with Redis
+- Real-time database connection with Redis (2 varients mongodb or redis allowed to configure with configuration file)
 - WebRTC server
 - Chat functionality and scalability with Docker
 - Real-time database with real-time updates
@@ -31,3 +30,5 @@ Unfortunately, I've had to discontinue this project due to a lack of resources. 
 
 **Notice**
 The Code might look that simple but I tried to make it simple not use golang's style I tried using statefull way feel free to check it out.
+
+# It Would be completely Open Source with open documentations 
