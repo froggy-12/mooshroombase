@@ -8,7 +8,7 @@
 - Media server
 - Instant full control API instead of SDKs
 - Dashboard
-- Real-time database connection with Redis
+- Real-time database connection with Redis (2 varients mongodb or redis allowed to configure with configuration file)
 - WebRTC server
 - Chat functionality and scalability with Docker
 - Real-time database with real-time updates
