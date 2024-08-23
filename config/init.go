@@ -29,13 +29,14 @@ func InitConfigs() Config {
 
 func CreateDefaultConfig(configs *Config) {
 	*configs = Config{
+		Back_End_URL:              "http://localhost:6644",
 		PrimaryDB:                 "mongodb",
 		RunningDatabaseContainers: []string{"mongodb", "redis", "mariadb"},
 		MongoDBUsername:           "root",
 		MongoDBPassword:           "password",
 		MariaDBRootPassword:       "password",
 		JWTSecret:                 "SuchASuperSecretMooshroom",
-		JWTTokenExpiration:        time.Now().Add(time.Hour * 24 * 7),
+		JWTTokenExpiration:        7,
 		ChatFunctions:             true,
 		Authentication:            true,
 		BodySizeLimit:             100 * 1024 * 1024,
@@ -43,7 +44,7 @@ func CreateDefaultConfig(configs *Config) {
 		SMTPServerPort:            "587",
 		SMTPEmailFrom:             "mohi6644123@gmail.com",
 		SMTPPassword:              "aahzizpbpbgiwtju",
-		AppUrl:                    "http://localhost:6644",
+		FrontEndUrl:               []string{"http://localhost:6644"},
 		VerifyEmailRouteClient:    "/verify",
 		EmailVerificationRoute:    "/verify-email",
 		ClientAPICredintials:      map[string]string{},
@@ -53,20 +54,9 @@ func CreateDefaultConfig(configs *Config) {
 		EmailVerificationAllowed:  false,
 		GithubKey:                 "",
 		GithubSecret:              "",
-		DiscordKey:                "",
-		DiscordSecret:             "",
-		FacebookKey:               "",
-		FaceBookSecret:            "",
 		GoogleKey:                 "",
 		GoogleSecret:              "",
-		MicrosoftKey:              "",
-		MicrosoftSecret:           "",
-		LinkedInKey:               "",
-		LinkedInSecret:            "",
-		TwitterKey:                "",
-		TwitterSecret:             "",
-		AppleKey:                  "",
-		AppleSecret:               "",
+		DefaultProfilePicURL:      "",
 	}
 	data, err := json.MarshalIndent(*configs, "", "  ")
 	if err != nil {

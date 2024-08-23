@@ -1,9 +1,8 @@
 package config
 
-import "time"
-
 type Config struct {
-	AppUrl                    string
+	Back_End_URL              string
+	FrontEndUrl               []string
 	EmailVerificationRoute    string
 	PrimaryDB                 string
 	JWTSecret                 string
@@ -12,7 +11,7 @@ type Config struct {
 	AllowedCorsOrigin         []string
 	CorsHeadersMaxAge         int
 	EmailVerificationAllowed  bool
-	JWTTokenExpiration        time.Time
+	JWTTokenExpiration        int
 	RunningDatabaseContainers []string
 	MongoDBUsername           string
 	MongoDBPassword           string
@@ -27,20 +26,9 @@ type Config struct {
 	BodySizeLimit             int
 	GithubKey                 string
 	GithubSecret              string
-	DiscordKey                string
-	DiscordSecret             string
-	FacebookKey               string
-	FaceBookSecret            string
 	GoogleKey                 string
 	GoogleSecret              string
-	MicrosoftKey              string
-	MicrosoftSecret           string
-	LinkedInKey               string
-	LinkedInSecret            string
-	TwitterKey                string
-	TwitterSecret             string
-	AppleKey                  string
-	AppleSecret               string
+	DefaultProfilePicURL      string
 }
 
 var Configs Config

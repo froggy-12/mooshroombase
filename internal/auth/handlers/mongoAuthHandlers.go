@@ -53,6 +53,7 @@ func CreateUserWithEmailAndPassword(c *fiber.Ctx, mongoClient *mongo.Client, val
 		Email:             user.Email,
 		UserName:          user.UserName,
 		Password:          string(hashedPassword),
+		ProfilePicture:    config.Configs.DefaultProfilePicURL,
 		Verified:          false,
 		CreatedAt:         time.Now(),
 		UpdatedAt:         time.Now(),

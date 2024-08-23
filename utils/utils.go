@@ -124,13 +124,29 @@ func UploadAnyFile(_ *fiber.Ctx, file *multipart.FileHeader, folder, filename st
 	return nil
 }
 
-func GenerateJWTToken(id string, jwtExpirationTime time.Time, jwtSecret string) (string, error) {
+func GenerateJWTToken(id string, jwtExpirationTime int, jwtSecret string) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  id,
-		"expr": jwtExpirationTime.Unix(),
+		"expr": time.Now().Add(time.Hour * 24 * time.Duration(jwtExpirationTime)).Unix(),
 		"iat":  time.Now().Unix(),
 	})
 
+	token, err := claims.SignedString([]byte(jwtSecret))
+
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
+}
+
+func GenerateOauthJWTToken(id string, jwtExpirationTime int, jwtSecret string) (string, error) {
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":  id,
+		"type": "oauth",
+		"expr": time.Now().Add(time.Hour * 24 * time.Duration(jwtExpirationTime)).Unix(),
+		"iat":  time.Now().Unix(),
+	})
 	token, err := claims.SignedString([]byte(jwtSecret))
 
 	if err != nil {
@@ -202,7 +218,7 @@ func ReadJWTToken(token string, jwtSecret string) (string, bool, error) {
 	return userId, false, nil
 }
 
-func LogIn(c *fiber.Ctx, coll *mongo.Collection, validate validator.Validate, jwtExpirationTime time.Time, jwtSecret string, cookieAge int) error {
+func LogIn(c *fiber.Ctx, coll *mongo.Collection, validate validator.Validate, jwtExpirationTime int, jwtSecret string, cookieAge int) error {
 	var details types.LogInDetails
 	if err := c.BodyParser(&details); err != nil {
 		return c.Status(http.StatusBadRequest).JSON(types.ErrorResponse{Error: "Invalid Request body"})

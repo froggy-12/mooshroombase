@@ -49,9 +49,13 @@ func (s *Server) Start() error {
 	routes.FileStorageRoutes(fileUpload)
 
 	// mongo auth routes
-	if config.Configs.PrimaryDB == "mongodb" {
-		mongoAuthRouter := app.Group("/api/mongo/auth/v1", corsMiddleWare)
-		routes.MongoAuthRoutes(mongoAuthRouter, s.mongoClient)
+	if config.Configs.Authentication {
+		if config.Configs.PrimaryDB == "mongodb" {
+			mongoAuthRouter := app.Group("/api/mongo/auth/v1", corsMiddleWare)
+			mongoOAuthRouter := app.Group("/api/mongo/oauth/v1", corsMiddleWare)
+			routes.MongoAuthRoutes(mongoAuthRouter, s.mongoClient)
+			routes.OAuthMongoRoutes(mongoOAuthRouter, s.mongoClient)
+		}
 	}
 
 	return app.Listen(s.addr)

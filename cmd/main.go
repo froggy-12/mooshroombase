@@ -28,6 +28,13 @@ func main() {
 	config.Configs = config.InitConfigs()
 	utils.DebugLogger("main", "Done 🍃👍")
 
+	config.CheckIfFieldsAreEmpty(config.Configs)
+	if config.Configs.Authentication {
+		if config.Configs.GithubKey == "" || config.Configs.GithubSecret == "" || config.Configs.GoogleKey == "" || config.Configs.GoogleSecret == "" {
+			log.Fatal("Invalid Configurations Authentication is enabled no configurations handled")
+		}
+	}
+
 	// initializing docker configs
 	utils.DebugLogger("main", "Starting Docker Configurations")
 	docker.Init()

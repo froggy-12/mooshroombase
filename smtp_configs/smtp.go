@@ -25,8 +25,8 @@ func SendVerificationEmail(emailTo string, code int) error {
 
 	data := VerificationEmailData{
 		Code:             strconv.Itoa(code),
-		Applink:          config.Configs.AppUrl + config.Configs.VerifyEmailRouteClient,
-		VerificationLink: config.Configs.AppUrl + config.Configs.EmailVerificationRoute,
+		Applink:          config.Configs.FrontEndUrl[0] + config.Configs.VerifyEmailRouteClient,
+		VerificationLink: config.Configs.FrontEndUrl[0] + config.Configs.EmailVerificationRoute,
 	}
 
 	tmpl := template.Must(template.New("email").Parse(`

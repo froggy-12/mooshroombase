@@ -44,10 +44,23 @@ type User_Mongo struct {
 	LastName          string    `bson:"lastName"`
 	Email             string    `bson:"email, unique"`
 	Password          string    `bson:"password"`
+	ProfilePicture    string    `bson:"profilePicture"`
 	Verified          bool      `bson:"verified"`
 	CreatedAt         time.Time `bson:"createdAt"`
 	UpdatedAt         time.Time `bson:"updatedAt"`
 	VerificationToken int       `bson:"verificationToken"`
+}
+
+type User_Mongo_Oauth struct {
+	ID             string    `bson:"id"`
+	UserName       string    `bson:"username, unique"`
+	FirstName      string    `bson:"firstName"`
+	LastName       string    `bson:"lastName"`
+	Email          string    `bson:"email, unique"`
+	ProfilePicture string    `bson:"profilePicture"`
+	Verified       bool      `bson:"verified"`
+	CreatedAt      time.Time `bson:"createdAt"`
+	UpdatedAt      time.Time `bson:"updatedAt"`
 }
 
 type LogInDetails struct {
