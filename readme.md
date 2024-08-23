@@ -3,7 +3,6 @@
 **Features:**
 
 - MongoDB and MariaDB databases with full access
-- Real-time subscriptions
 - Authentication
 - Storage
 - Media server
